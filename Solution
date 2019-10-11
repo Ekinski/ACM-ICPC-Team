@@ -1,0 +1,74 @@
+using System.CodeDom.Compiler;
+using System.Collections.Generic;
+using System.Collections;
+using System.ComponentModel;
+using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
+using System.IO;
+using System.Linq;
+using System.Reflection;
+using System.Runtime.Serialization;
+using System.Text.RegularExpressions;
+using System.Text;
+using System;
+
+class Solution {
+
+    // Complete the acmTeam function below.
+    static int[] acmTeam(string[] topic) {
+        int[] answer = new int[2];
+        int topics = 0;
+        int teams = 0;
+        int highest = 0;
+        // 1 == 49
+        // 0 = 48
+        for(int a = 0; a < topic.Length -1; a++){ // every against every input
+
+            for(int b = a+1; b < topic.Length; b++){  // everyother input +1
+
+                for(int c = 0; c < topic[0].Length; c++){ // check the inputs 0 & 1
+
+                    if (topic[a][c] == 49 || topic[b][c] ==49){
+                        topics++;
+                    } else {
+                        continue;
+                    }
+                }
+                if (highest == topics){
+                    teams++;
+                } else if (topics > highest){
+                    highest = topics;
+                    teams = 1;    
+                }
+                topics =0;
+            }  
+        }
+        answer[0] = highest;
+        answer [1] = teams;
+        return answer;    
+    }   
+
+    static void Main(string[] args) {
+        TextWriter textWriter = new StreamWriter(@System.Environment.GetEnvironmentVariable("OUTPUT_PATH"), true);
+
+        string[] nm = Console.ReadLine().Split(' ');
+
+        int n = Convert.ToInt32(nm[0]);
+
+        int m = Convert.ToInt32(nm[1]);
+
+        string[] topic = new string [n];
+
+        for (int i = 0; i < n; i++) {
+            string topicItem = Console.ReadLine();
+            topic[i] = topicItem;
+        }
+
+        int[] result = acmTeam(topic);
+
+        textWriter.WriteLine(string.Join("\n", result));
+
+        textWriter.Flush();
+        textWriter.Close();
+    }
+}
